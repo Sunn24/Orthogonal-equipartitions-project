@@ -1,0 +1,1053 @@
+\documentclass[11pt,aspectratio=43,xcolor={dvipsnames},notheorems]{beamer}
+\usepackage{emoji} % LuaLaTeX
+%%%%%%%Begin thai template%%%%%%%
+% \usepackage[no-math]{fontspec}
+% \usepackage{xunicode}
+% \usepackage{xltxtra}
+% \XeTeXlinebreaklocale "th"
+% \XeTeXlinebreakskip = 0pt plus 0.5pt
+% \defaultfontfeatures{Mapping=tex-text} 
+% \newfontfamily{\thaifont}[Path = ./Header/Fonts/,BoldFont={THSarabunNew Bold.ttf},ItalicFont={THSarabunNew Italic.ttf},BoldItalicFont={THSarabunNew BoldItalic.ttf},Scale=MatchLowercase]{THSarabunNew.ttf}
+% \newfontfamily{\englishfont}[Path = ./Header/Fonts/,BoldFont={cmunbx.ttf},ItalicFont={cmunti.ttf},BoldItalicFont={cmunbi.ttf},Scale=MatchLowercase]{cmunrm.ttf}
+% \usepackage[Latin,Thai]{ucharclasses}
+% \setTransitionTo{Thai}{\thaifont}
+% \setTransitionFrom{Thai}{\englishfont}
+%%%%%%%end thai template%%%%%%%
+\usepackage{setspace}
+\setstretch{1.1}
+% \setlength{\parindent}{2em}
+%\setlength{\emergencystretch}{2em}
+%สำหรับการใช้ฟ้อนThai-Eng%
+
+\usetheme{PaloAlto}
+%\usecolortheme{orchid}
+\usefonttheme{serif} 
+
+\definecolor{msl}{HTML} {ff77bc}
+% \definecolor{msl}{RGB}{33,144,189}
+\definecolor{blueblack1}{HTML}{003366}
+\definecolor{blueblack2}{RGB}{0,0,80}
+% \usecolortheme[RGB={179,157,219}]{structure}
+\usecolortheme[named=msl]{structure}
+
+% \setbeamersize{sidebar width left=2cm}
+\setbeamercolor{frametitle}{bg=msl!20!msl}
+\setbeamercolor{sidebar}{bg=msl} % sidebar text color
+\setbeamercolor{title in sidebar}{fg=white}
+
+\colorlet{titleright}{msl!30!white} % sidebar and headline color
+% \colorlet{titleright}{msl!30!black}
+\colorlet{titlemid}{msl}
+\colorlet{titleleft}{msl}
+
+% \makeatletter
+% \setlength\beamer@sidebarwidth{1.5cm}
+% \makeatother
+
+\setbeamertemplate{title page}[default][colsep=-4bp,rounded=true]
+\setbeamertemplate{blocks}[rounded][shadow=false]
+
+\makeatletter
+% shading on background %%
+\setbeamertemplate{background canvas}[vertical shading][bottom=msl!10,top=msl!2]
+% \setbeamertemplate{background canvas}[vertical shading][top=msl!30,bottom=white!10]
+
+\pgfdeclarehorizontalshading[titleleft,titleright]{beamer@frametitleshade}{\paperheight}{%
+    color(\beamer@sidebarwidth)=(titlemid);%
+    color(\paperwidth)=(titleright)%
+}
+
+\pgfdeclareverticalshading[titleleft,titleright]{beamer@sidebar}{\beamer@sidebarwidth}{%
+    color(0pt)=(titleright);%
+    color(\sidebarheight)=(titleleft)%
+}
+
+%% shading on headline %%
+\setbeamertemplate{headline}{%
+    \begin{beamercolorbox}[wd=\paperwidth]{frametitle}%
+        \ifx\beamer@sidebarside\beamer@lefttext%
+        \else%
+        \hfill%
+        \fi%
+        \ifdim\beamer@sidebarwidth>0pt%  
+        \usebeamercolor[bg]{logo}%
+        \begin{pgfpicture}{0pt}{0pt}{\paperwidth}{\beamer@headheight}%
+            \usebeamercolor{frametitle right}%
+            \pgfpathrectangle{\pgfpointorigin}{\pgfpoint{\paperwidth}{\beamer@headheight}}%
+            \pgfusepath{clip}%
+            \pgftext[left,base]{\pgfuseshading{beamer@frametitleshade}}%
+        \end{pgfpicture}%
+        \vskip-\beamer@headheight%
+        \vrule width\beamer@sidebarwidth height \beamer@headheight%
+        \hskip-\beamer@sidebarwidth%
+        \hbox to \beamer@sidebarwidth{\hss\vbox to
+            \beamer@headheight{\vss\hbox{\color{fg}\insertlogo}\vss}\hss}%
+        \else%
+        \vrule width0pt height \beamer@headheight%  
+        \fi%
+    \end{beamercolorbox}
+}
+%% shading on sidebar %%
+\setbeamertemplate{sidebar canvas left}{
+    \pgfuseshading{beamer@sidebar}
+}
+
+\makeatother
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usetikzlibrary{arrows,angles,quotes}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\graphicspath{{.}}
+\usepackage{multicol}
+% \setbeamercovered{transparent=10}
+
+% \usebackgroundtemplate{%
+% \tikz[overlay,remember picture] \node[opacity=0.2, at=(current page.center)] {
+%    \includegraphics[height=\paperheight,width=\paperwidth]{Mahidollogo.png}};
+% }
+
+
+% \addtobeamertemplate{navigation symbols}{}{%
+%     \usebeamerfont{footline}%
+%     \usebeamercolor[fg]{footline}%
+%     \hspace{1em}%
+%     \insertframenumber/\inserttotalframenumber
+% }
+\addtobeamertemplate{navigation symbols}{}{%
+  \usebeamerfont{footline}%
+  \usebeamercolor[fg]{footline}%
+  \hspace{1em}%
+  {\fontsize{12}{13} \selectfont\insertframenumber/\inserttotalframenumber}
+}
+
+%\logo{\includegraphics[height=1cm]{logo2.png}}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,      
+    urlcolor=blue
+    }
+
+% \usepackage{bibentry}
+\usepackage{booktabs} % Allows the use of \toprule, 
+
+
+\title[Orthogonal Equipartitions]{Orthogonal Equipartitions of 3-color Points in the Plane}
+% \subtitle{for SCMA 490 Seminar}
+% \author[Krittapas N.]{Krittapas Ngammuengman 6305146}
+\author{Krittapas N.}
+\date{May 17, 2024}
+
+% math mode package %
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amssymb}
+
+% theoremstyle %
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{บทนิยาม}[]
+
+\theoremstyle{plain}
+\newtheorem{theorem}{ทฤษฎีบท}[]
+\newtheorem{lemma}[theorem]{บทตั้ง}
+\newtheorem{proposition}[theorem]{ทฤษฎีบทประกอบ}
+\newtheorem{corollary}[theorem]{บทแทรก}
+\newtheorem{observation}{ข้อสังเกต}[]
+
+\theoremstyle{remark}
+\newtheorem{example}{ตัวอย่าง}
+\newtheorem{exercise}{แบบฝึกหัด}
+\newtheorem*{remark}{หมายเหตุ}
+% \newtheorem{note}{บันทึก}
+\setbeamertemplate{theorems}[numbered]
+% \setbeamertemplate{theorems}[ams style] 
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\DeclareMathOperator{\conv}{conv}
+
+\usepackage{animate}
+
+\begin{document}
+\nocite{*}
+\maketitle
+% \begin{frame}{Outline}
+% \tableofcontents
+% \end{frame}
+
+\section{Introduction}
+\begin{frame}[allowframebreaks]{Introduction}
+% \begin{enumerate}
+%     \item 2-Color Points in the plane
+%     \item Thm 2 (Convex hull)
+%     \item Thm 3 (Semi-Rectangular cut)
+%     \item One(part) of Thm 4 (Restrict the number of segment)
+%     \item main problem
+% \end{enumerate}
+% \end{frame}
+% \begin{frame}
+\begin{figure}[ht]
+    \centering
+\begin{tikzpicture}[thick, scale=0.52]
+%%%%% Axis %%%%%
+% \draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+%%%%% Point %%%%%
+\draw[fill=red,draw=black] (-3.5,-3.5) circle (3pt);
+\draw[fill=red,draw=black] (-1,3) circle (3pt);
+\draw[fill=red,draw=black] (1,-3) circle (3pt);
+\draw[fill=red,draw=black] (-3,2) circle (3pt);
+\draw[fill=red,draw=black] (2,0) circle (3pt);
+\draw[fill=red,draw=black] (-0.5,0.5) circle (3pt);
+\draw[fill=red,draw=black] (1,4) circle (3pt);
+\draw[fill=red,draw=black] (-4,-1) circle (3pt);
+
+\draw[fill=blue,draw=black] (3,-2) circle (3pt);
+\draw[fill=blue,draw=black] (2.5,2) circle (3pt);
+\draw[fill=blue,draw=black] (-2,-4) circle (3pt);
+\draw[fill=blue,draw=black] (3,2.5) circle (3pt);
+\draw[fill=blue,draw=black] (-2.5,-3) circle (3pt);
+\draw[fill=blue,draw=black] (-1.5,2) circle (3pt);
+\draw[fill=blue,draw=black] (2.5,-3.5) circle (3pt);
+\draw[fill=blue,draw=black] (-2.5,3) circle (3pt);
+\draw[fill=blue,draw=black] (0.5,4.5) circle (3pt);
+\draw[fill=blue,draw=black] (-0.5,1) circle (3pt);
+\draw[fill=blue,draw=black] (-4.5,-1.5) circle (3pt);
+\draw[fill=blue,draw=black] (4,-4) circle (3pt);
+\draw[fill=blue,draw=black] (0.5,0.5) circle (3pt);
+\draw[fill=blue,draw=black] (-1,4) circle (3pt);
+\draw[fill=blue,draw=black] (-3,-2) circle (3pt);
+\draw[fill=blue,draw=black] (4,-1) circle (3pt);
+\end{tikzpicture}
+\caption{2-color points in the plane in general position.}
+\end{figure}
+% \begin{theorem}[]
+%     Let $R$ and $B$ be two disjoint sets of $an$ red points and $bn$ blue points in the plane respectively, where $a\ge 1$ and $b\ge 1$. then $R\cup B$ can be partitioned into disjoint subsets $P_1\cup P_2\cup\cdots \cup P_n$ satisfying the following conditions:
+%     \begin{enumerate}
+%         \item $\conv(P_i)\cap\conv(P_j)=\varnothing$ for all $1\le i<j\le q$,
+%         \item every $P_i$ contains exactly $a$ red points and $b$ blue points.
+%     \end{enumerate}
+% \end{theorem}
+% \end{frame}
+% \begin{frame}
+\begin{figure}[ht]
+    \centering
+\begin{tikzpicture}[thick, scale=0.52]
+%%%%% Axis %%%%%
+% \draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=0.75pt,opacity=0.8] (-2,-4)--(-3,-2)--(-4,-1)--(-4.5,-1.5)--(-3.5,-3.5)--cycle;
+\draw[densely dashed,color=red,line width=0.75pt,opacity=0.8] (4,-4)--(4,-1)--(2,0)--(1,-3)--cycle;
+\draw[densely dashed,color=red,line width=0.75pt,opacity=0.8] (0.5,0.5)--(0.5,4.5)--(-1,4)--(-2.5,3)--(-3,2)--(-0.5,0.5)--cycle;
+\draw[densely dashed,color=red,line width=0.75pt,opacity=0.8] (3,2.5)--(1,4)--(2.5,2)--cycle;
+%%%%% Point %%%%%
+\draw[fill=red,draw=black] (-3.5,-3.5) circle (3pt);
+\draw[fill=red,draw=black] (-1,3) circle (3pt);
+\draw[fill=red,draw=black] (1,-3) circle (3pt);
+\draw[fill=red,draw=black] (-3,2) circle (3pt);
+\draw[fill=red,draw=black] (2,0) circle (3pt);
+\draw[fill=red,draw=black] (-0.5,0.5) circle (3pt);
+\draw[fill=red,draw=black] (1,4) circle (3pt);
+\draw[fill=red,draw=black] (-4,-1) circle (3pt);
+
+\draw[fill=blue,draw=black] (3,-2) circle (3pt);
+\draw[fill=blue,draw=black] (2.5,2) circle (3pt);
+\draw[fill=blue,draw=black] (-2,-4) circle (3pt);
+\draw[fill=blue,draw=black] (3,2.5) circle (3pt);
+\draw[fill=blue,draw=black] (-2.5,-3) circle (3pt);
+\draw[fill=blue,draw=black] (-1.5,2) circle (3pt);
+\draw[fill=blue,draw=black] (2.5,-3.5) circle (3pt);
+\draw[fill=blue,draw=black] (-2.5,3) circle (3pt);
+\draw[fill=blue,draw=black] (0.5,4.5) circle (3pt);
+\draw[fill=blue,draw=black] (-0.5,1) circle (3pt);
+\draw[fill=blue,draw=black] (-4.5,-1.5) circle (3pt);
+\draw[fill=blue,draw=black] (4,-4) circle (3pt);
+\draw[fill=blue,draw=black] (0.5,0.5) circle (3pt);
+\draw[fill=blue,draw=black] (-1,4) circle (3pt);
+\draw[fill=blue,draw=black] (-3,-2) circle (3pt);
+\draw[fill=blue,draw=black] (4,-1) circle (3pt);
+\end{tikzpicture}
+\caption{Balanced
+partition of convex sets.}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+\begin{tikzpicture}[thick, scale=0.52]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!60, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=0.75pt,opacity=0.8] (-0.75,5)--(-0.75,3.5)--(-1.25,3.5)--(-1.25,-2.75)--(1.25,-2.75)--(1.25,-3.25)--(5,-3.25);
+%%%%% Point %%%%%
+\draw[fill=white,draw=red] (-1.25,-2.75) circle (3pt);
+
+\draw[fill=red,draw=black] (-3.5,-3.5) circle (3pt);
+\draw[fill=red,draw=black] (-1,3) circle (3pt);
+\draw[fill=red,draw=black] (1,-3) circle (3pt);
+\draw[fill=red,draw=black] (-3,2) circle (3pt);
+\draw[fill=red,draw=black] (2,0) circle (3pt);
+\draw[fill=red,draw=black] (-0.5,0.5) circle (3pt);
+\draw[fill=red,draw=black] (1,4) circle (3pt);
+\draw[fill=red,draw=black] (-4,-1) circle (3pt);
+
+\draw[fill=blue,draw=black] (3,-2) circle (3pt);
+\draw[fill=blue,draw=black] (2.5,2) circle (3pt);
+\draw[fill=blue,draw=black] (-2,-4) circle (3pt);
+\draw[fill=blue,draw=black] (3,2.5) circle (3pt);
+\draw[fill=blue,draw=black] (-2.5,-3) circle (3pt);
+\draw[fill=blue,draw=black] (-1.5,2) circle (3pt);
+\draw[fill=blue,draw=black] (2.5,-3.5) circle (3pt);
+\draw[fill=blue,draw=black] (-2.5,3) circle (3pt);
+\draw[fill=blue,draw=black] (0.5,4.5) circle (3pt);
+\draw[fill=blue,draw=black] (-0.5,1) circle (3pt);
+\draw[fill=blue,draw=black] (-4.5,-1.5) circle (3pt);
+\draw[fill=blue,draw=black] (4,-4) circle (3pt);
+\draw[fill=blue,draw=black] (0.5,0.5) circle (3pt);
+\draw[fill=blue,draw=black] (-1,4) circle (3pt);
+\draw[fill=blue,draw=black] (-3,-2) circle (3pt);
+\draw[fill=blue,draw=black] (4,-1) circle (3pt);
+\end{tikzpicture}
+\caption{Balanced partition of semi-rectangular
+cut.}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+\begin{tikzpicture}[thick, scale=0.52]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=0.75pt,opacity=0.8] (-1.75,5)--(-1.75,-1.25)--(5,-1.25);
+%%%%% Point %%%%%
+\draw[fill=white,draw=red] (-1.75,-1.25) circle (3pt);
+
+\draw[fill=red,draw=black] (-3.5,-3.5) circle (3pt);
+\draw[fill=red,draw=black] (-1,3) circle (3pt);
+\draw[fill=red,draw=black] (1,-3) circle (3pt);
+\draw[fill=red,draw=black] (-3,2) circle (3pt);
+\draw[fill=red,draw=black] (2,0) circle (3pt);
+\draw[fill=red,draw=black] (-0.5,0.5) circle (3pt);
+\draw[fill=red,draw=black] (1,4) circle (3pt);
+\draw[fill=red,draw=black] (-4,-1) circle (3pt);
+
+\draw[fill=blue,draw=black] (3,-2) circle (3pt);
+\draw[fill=blue,draw=black] (2.5,2) circle (3pt);
+\draw[fill=blue,draw=black] (-2,-4) circle (3pt);
+\draw[fill=blue,draw=black] (3,2.5) circle (3pt);
+\draw[fill=blue,draw=black] (-2.5,-3) circle (3pt);
+\draw[fill=blue,draw=black] (-1.5,2) circle (3pt);
+\draw[fill=blue,draw=black] (2.5,-3.5) circle (3pt);
+\draw[fill=blue,draw=black] (-2.5,3) circle (3pt);
+\draw[fill=blue,draw=black] (0.5,4.5) circle (3pt);
+\draw[fill=blue,draw=black] (-0.5,1) circle (3pt);
+\draw[fill=blue,draw=black] (-4.5,-1.5) circle (3pt);
+\draw[fill=blue,draw=black] (4,-4) circle (3pt);
+\draw[fill=blue,draw=black] (0.5,0.5) circle (3pt);
+\draw[fill=blue,draw=black] (-1,4) circle (3pt);
+\draw[fill=blue,draw=black] (-3,-2) circle (3pt);
+\draw[fill=blue,draw=black] (4,-1) circle (3pt);
+\end{tikzpicture}
+\caption{Balanced partition of 1 vertical and 1 horizontal segments.}
+\end{figure}
+\end{frame}
+\begin{frame}{Main Problem}
+\begin{block}{Problem 1}
+    Let $k>2$ be an integer. Given a set of $k-$color points in general position in the plane. What is a smallest number\\
+    of line segments for equitable partitioning $k-$color into\\
+    two regions?
+    % $$\left\lfloor\dfrac{n_i}{2}\right\rfloor \text{ or } \left\lceil\dfrac{n_i}{2}\right\rceil$$
+    % for each color $i=1,\,2,\,\ldots,\,k$.
+
+    
+    % Let $k\ge 3$ and $n\ge 1$ integers. For any set $S$ of $n$ points in general position in the plane. 
+\end{block}
+\end{frame}
+\section{Methodology}
+\begin{frame}[allowframebreaks]{Methodology}
+% \begin{enumerate}
+%     \item รูปที่ต้องการ 
+%     % \item random
+%     \item first vertical
+%     \item ฺfor 3 segment
+%     \item for 5 segment
+% \end{enumerate}
+\begin{figure}[ht]
+    \centering
+\begin{tikzpicture}[thick, scale=0.52]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+%%%%% Point %%%%%
+\draw[fill=lime,draw=black] (2.5,1) circle (3pt);
+\draw[fill=lime,draw=black] (-2,-4) circle (3pt);
+\draw[fill=lime,draw=black] (3,2.5) circle (3pt);
+\draw[fill=lime,draw=black] (-2.5,-3) circle (3pt);
+\draw[fill=lime,draw=black] (-1.5,2) circle (3pt);
+\draw[fill=lime,draw=black] (-1.5,-3.5) circle (3pt);
+
+\draw[fill=red,draw=black] (-1,3) circle (3pt);
+\draw[fill=red,draw=black] (1,-3) circle (3pt);
+\draw[fill=red,draw=black] (-3,2) circle (3pt);
+\draw[fill=red,draw=black] (2,0) circle (3pt);
+\draw[fill=red,draw=black] (-0.5,0.5) circle (3pt);
+\draw[fill=red,draw=black] (1,4) circle (3pt);
+\draw[fill=red,draw=black] (-4,-1) circle (3pt);
+\draw[fill=red,draw=black] (3,-2) circle (3pt);
+
+\draw[fill=blue,draw=black] (0.5,4.5) circle (3pt);
+\draw[fill=blue,draw=black] (-0.5,1) circle (3pt);
+\draw[fill=blue,draw=black] (-4.5,-1.5) circle (3pt);
+\draw[fill=blue,draw=black] (4,-4) circle (3pt);
+\draw[fill=blue,draw=black] (0.5,0.5) circle (3pt);
+\draw[fill=blue,draw=black] (-1,4) circle (3pt);
+\draw[fill=blue,draw=black] (-3,-2) circle (3pt);
+\draw[fill=blue,draw=black] (4,-1) circle (3pt);
+\end{tikzpicture}
+\caption{The 3-color points in general position in the plane.}
+\label{ex1}
+\end{figure}
+% \newpage
+% \textbf{}\vfill
+% \begin{block}{}
+%     abc
+% \end{block}
+% \vfill\textbf{}
+% \newpage
+\begin{figure}[!ht]
+    \centering
+\begin{tikzpicture}[thick, scale=0.52]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+%%%%% Point %%%%%
+\draw[fill=lime,draw=black] (2.5,1) circle (3pt);
+\draw[fill=lime,draw=black] (-2,-4) circle (3pt);
+\draw[fill=lime,draw=black] (3,2.5) circle (3pt);
+\draw[fill=lime,draw=black] (-2.5,-3) circle (3pt);
+\draw[fill=lime,draw=black] (-1.5,2) circle (3pt);
+\draw[fill=lime,draw=black] (-1.5,-3.5) circle (3pt);
+
+\draw[fill=red,draw=black] (-1,3) circle (3pt);
+\draw[fill=red,draw=black] (1,-3) circle (3pt);
+\draw[fill=red,draw=black] (-3,2) circle (3pt);
+\draw[fill=red,draw=black] (2,0) circle (3pt);
+\draw[fill=red,draw=black] (-0.5,0.5) circle (3pt);
+\draw[fill=red,draw=black] (1,4) circle (3pt);
+\draw[fill=red,draw=black] (-4,-1) circle (3pt);
+\draw[fill=red,draw=black] (3,-2) circle (3pt);
+
+\draw[fill=blue,draw=black] (0.5,4.5) circle (3pt);
+\draw[fill=blue,draw=black] (-0.5,1) circle (3pt);
+\draw[fill=blue,draw=black] (-4.5,-1.5) circle (3pt);
+\draw[fill=blue,draw=black] (4,-4) circle (3pt);
+\draw[fill=blue,draw=black] (0.5,0.5) circle (3pt);
+\draw[fill=blue,draw=black] (-1,4) circle (3pt);
+\draw[fill=blue,draw=black] (-3,-2) circle (3pt);
+\draw[fill=blue,draw=black] (4,-1) circle (3pt);
+\draw[densely dashed,color=blue,line width=1pt,opacity=1] (-5,-2)--(2,-2);
+\draw[densely dashed,color=red!90!black,line width=0.75pt,opacity=1] (2,-5)--(2,-2)--(5,-2);
+\node at (-5.5,-2) {$i$};
+\node at (2,-5.5) {$j$};
+\node at (-1.5,-1.5) {$a_{ij}$};
+\end{tikzpicture}
+\caption{$a_{ij}$ is the number of each color points that lie on $y=i$ from $x=0$ to $x=j$}
+\label{ex2}
+\end{figure}
+\begin{figure}[!h]
+    \centering
+\begin{tikzpicture}[thick, scale=0.52]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+%%%%% Blue Point %%%%%
+\draw[fill=lime,draw=black] (2.5,1) circle (3pt);
+\draw[fill=lime,draw=black] (-2,-4) circle (3pt);
+\draw[fill=lime,draw=black] (3,2.5) circle (3pt);
+\draw[fill=lime,draw=black] (-2.5,-3) circle (3pt);
+\draw[fill=lime,draw=black] (-1.5,2) circle (3pt);
+\draw[fill=lime,draw=black] (-1.5,-3.5) circle (3pt);
+
+\draw[fill=red,draw=black] (-1,3) circle (3pt);
+\draw[fill=red,draw=black] (1,-3) circle (3pt);
+\draw[fill=red,draw=black] (-3,2) circle (3pt);
+\draw[fill=red,draw=black] (2,0) circle (3pt);
+\draw[fill=red,draw=black] (-0.5,0.5) circle (3pt);
+\draw[fill=red,draw=black] (1,4) circle (3pt);
+\draw[fill=red,draw=black] (-4,-1) circle (3pt);
+\draw[fill=red,draw=black] (3,-2) circle (3pt);
+
+\draw[fill=blue,draw=black] (0.5,4.5) circle (3pt);
+\draw[fill=blue,draw=black] (-0.5,1) circle (3pt);
+\draw[fill=blue,draw=black] (-4.5,-1.5) circle (3pt);
+\draw[fill=blue,draw=black] (4,-4) circle (3pt);
+\draw[fill=blue,draw=black] (0.5,0.5) circle (3pt);
+\draw[fill=blue,draw=black] (-1,4) circle (3pt);
+\draw[fill=blue,draw=black] (-3,-2) circle (3pt);
+\draw[fill=blue,draw=black] (4,-1) circle (3pt);
+\foreach \i in {-5,-4.5,...,4.5,5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=0.6] (\i,-5)--(\i,5);
+}
+\node at (0,-5.75) {$S_j=\sum_{i=1}^na_{ij}$};
+\end{tikzpicture}
+\caption{$S_j$ is a sum of number of each color points along left side of a line $x=j$.}
+\label{ex3}
+\end{figure}
+\vspace{-2\baselineskip}
+\begin{figure}[!ht]
+    \centering
+\begin{tikzpicture}[thick, scale=0.52]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1] (-0.5,-5)--(-0.5,5);
+%%%%% Point %%%%%
+\draw[fill=lime,draw=black] (2.5,1) circle (3pt);
+\draw[fill=lime,draw=black] (-2,-4) circle (3pt);
+\draw[fill=lime,draw=black] (3,2.5) circle (3pt);
+\draw[fill=lime,draw=black] (-2.5,-3) circle (3pt);
+\draw[fill=lime,draw=black] (-1.5,2) circle (3pt);
+\draw[fill=lime,draw=black] (-1.5,-3.5) circle (3pt);
+
+\draw[fill=red,draw=black] (-1,3) circle (3pt);
+\draw[fill=red,draw=black] (1,-3) circle (3pt);
+\draw[fill=red,draw=black] (-3,2) circle (3pt);
+\draw[fill=red,draw=black] (2,0) circle (3pt);
+\draw[fill=red,draw=black] (-0.5,0.5) circle (3pt);
+\draw[fill=red,draw=black] (1,4) circle (3pt);
+\draw[fill=red,draw=black] (-4,-1) circle (3pt);
+\draw[fill=red,draw=black] (3,-2) circle (3pt);
+
+\draw[fill=blue,draw=black] (0.5,4.5) circle (3pt);
+\draw[fill=blue,draw=black] (-0.5,1) circle (3pt);
+\draw[fill=blue,draw=black] (-4.5,-1.5) circle (3pt);
+\draw[fill=blue,draw=black] (4,-4) circle (3pt);
+\draw[fill=blue,draw=black] (0.5,0.5) circle (3pt);
+\draw[fill=blue,draw=black] (-1,4) circle (3pt);
+\draw[fill=blue,draw=black] (-3,-2) circle (3pt);
+\draw[fill=blue,draw=black] (4,-1) circle (3pt);
+\foreach \i in {-5,-4.5,...,4.5,5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=0.3] (\i,-5)--(\i,5);
+}
+\end{tikzpicture}
+\caption{A first vertical line $x=j$.}
+\end{figure}
+\begin{figure}[!ht]
+    \centering
+\begin{tikzpicture}[thick, scale=0.52]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1] (-0.25,-5)--(-0.25,5);
+%%%%% Point %%%%%
+\draw[fill=lime,draw=black] (2.5,1) circle (3pt);
+\draw[fill=lime,draw=black] (-2,-4) circle (3pt);
+\draw[fill=lime,draw=black] (3,2.5) circle (3pt);
+\draw[fill=lime,draw=black] (-2.5,-3) circle (3pt);
+\draw[fill=lime,draw=black] (-1.5,2) circle (3pt);
+\draw[fill=lime,draw=black] (-1.5,-3.5) circle (3pt);
+
+\draw[fill=red,draw=black] (-1,3) circle (3pt);
+\draw[fill=red,draw=black] (1,-3) circle (3pt);
+\draw[fill=red,draw=black] (-3,2) circle (3pt);
+\draw[fill=red,draw=black] (2,0) circle (3pt);
+\draw[fill=red,draw=black] (-0.5,0.5) circle (3pt);
+\draw[fill=red,draw=black] (1,4) circle (3pt);
+\draw[fill=red,draw=black] (-4,-1) circle (3pt);
+\draw[fill=red,draw=black] (3,-2) circle (3pt);
+
+\draw[fill=blue,draw=black] (0.5,4.5) circle (3pt);
+\draw[fill=blue,draw=black] (-0.5,1) circle (3pt);
+\draw[fill=blue,draw=black] (-4.5,-1.5) circle (3pt);
+\draw[fill=blue,draw=black] (4,-4) circle (3pt);
+\draw[fill=blue,draw=black] (0.5,0.5) circle (3pt);
+\draw[fill=blue,draw=black] (-1,4) circle (3pt);
+\draw[fill=blue,draw=black] (-3,-2) circle (3pt);
+\draw[fill=blue,draw=black] (4,-1) circle (3pt);
+% \foreach \i in {-5,-4.5,...,4.5,5}{
+% \draw[densely dashed,color=blue,line width=0.5pt,opacity=0.3] (\i,-5)--(\i,5);
+% }
+\end{tikzpicture}
+\caption{A first vertical line $x=j$.}
+\end{figure}
+\begin{block}{Verify a solution}
+    A first vertical line $x=j$ is a solution when $$\left|\dfrac{S_n}{2}-S_j\right|\le \dfrac{1}{2},$$ 
+    for every color of points.
+\end{block}
+\end{frame}
+\subsection{3 Line Segments}
+\begin{frame}[allowframebreaks]{3 Line Segments}
+\begin{figure}[!ht]
+\centering
+\begin{subfigure}{0.49\textwidth}
+\centering
+\begin{tikzpicture}[thick, scale=0.4]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1](-2,-5)--(-2,0)--(2,0)--(2,5);
+\foreach \i in {-5,-4.5,...,-3,-2.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (\i,-5)--(\i,5);
+}
+\foreach \i in {-2,-1.5,...,1,1.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (\i,0)--(\i,5);
+}
+\node at (-5.5,0) {$\color{red!80!black}i_1$};
+\node at (-2,-5.5) {$\color{red!80!black}j_1$};
+\node at (2,-5.5) {$j$};
+\end{tikzpicture}
+\end{subfigure}
+\begin{subfigure}{0.49\textwidth}
+\centering
+\begin{tikzpicture}[thick, scale=0.4]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1](-2,5)--(-2,0)--(2,0)--(2,-5);
+\foreach \i in {-5,-4.5,...,-3,-2.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (\i,-5)--(\i,5);
+}
+\foreach \i in {-2,-1.5,...,1,1.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (\i,-5)--(\i,0);
+}
+\node at (-5.5,0) {$\color{red!80!black}i_1$};
+\node at (-2,-5.5) {$\color{red!80!black}j_1$};
+\node at (2,-5.5) {$j$};
+
+\end{tikzpicture}
+\end{subfigure}
+\caption{2 vertical and 1 horizontal segments.}
+\end{figure}
+\begin{block}{Convert into equation}
+\begin{equation}
+    V=\sum_{i=0}^{i_1}a_{ij}+\sum_{i=i_1}^{n}a_{ij_1}\quad\text{or}\quad V=\sum_{i=0}^{i_1}a_{ij_1} +\sum_{i=i_1}^{n}a_{ij},
+\end{equation}
+where $0\le j_1\le j$ for each color of points.
+\end{block}
+\begin{block}{Verify a solution}
+    This partition is a solution when $$\left|\dfrac{S_n}{2}-V\right|\le \dfrac{1}{2},$$ 
+    for every color of points.
+\end{block}
+\begin{figure}[!ht]
+\centering
+\begin{subfigure}{0.49\textwidth}
+\centering
+\begin{tikzpicture}[thick, scale=0.4]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1](-5,-2)--(0,-2)--(0,2)--(5,2);
+\foreach \i in {-5,-4.5,...,-3,-2.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (-5,\i)--(5,\i);
+}
+\foreach \i in {-2,-1.5,...,1,1.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (0,\i)--(5,\i);
+}
+\node at (0,-5.5) {$i_1$};
+\node at (-5.5,-2) {$j_1$};
+\node at (-5.5,2) {$j$};
+\end{tikzpicture}
+\end{subfigure}
+\begin{subfigure}{0.49\textwidth}
+\centering
+\begin{tikzpicture}[thick, scale=0.4]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1](5,-2)--(0,-2)--(0,2)--(-5,2);
+\foreach \i in {-5,-4.5,...,-3,-2.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (-5,\i)--(5,\i);
+}
+\foreach \i in {-2,-1.5,...,1,1.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (-5,\i)--(0,\i);
+}
+\node at (0,-5.5) {$i_1$};
+\node at (-5.5,-2) {$j_1$};
+\node at (-5.5,2) {$j$};
+
+\end{tikzpicture}
+\end{subfigure}
+\caption{1 vertical and 2 horizontal segments.}
+\end{figure}
+
+\end{frame}
+\subsection{5 Line Segments}
+\begin{frame}[allowframebreaks]{Some Cases of 5 Line Segments}
+\begin{figure}[!ht]
+\centering
+\begin{subfigure}{0.49\textwidth}
+\centering
+\begin{tikzpicture}[thick, scale=0.4]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1] (2,-5)--(2,-2)--(-2,-2)--(-2,2)--(2,2)--(2,5);
+\node at (-5.5,-2) {$i_1$};
+\node at (-5.5,2) {$\color{red!80!black}i_2$};
+\node at (-2,-5.5) {$j_1$};
+\node at (2,-5.5) {$j$};
+\foreach \i in {-5,-4.5,...,-3,-2.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (\i,-5)--(\i,5);
+}
+\foreach \i in {-2,-1.5,...,1,1.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (\i,-5)--(\i,-2);
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (\i,2)--(\i,5);
+}
+\end{tikzpicture}
+\end{subfigure}
+\begin{subfigure}{0.49\textwidth}
+\centering
+\begin{tikzpicture}[thick, scale=0.4]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1](-2,-5)--(-2,-2)--(2,-2)--(2,2)--(-2,2)--(-2,5);
+\node at (-5.5,-2) {$i_1$};
+\node at (-5.5,2) {$\color{red!80!black}i_2$};
+\node at (-2,-5.5) {$j_1$};
+\node at (2,-5.5) {$j$};
+\foreach \i in {-5,-4.5,...,-3,-2.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (\i,-5)--(\i,5);
+}
+\foreach \i in {-2,-1.5,...,1,1.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (\i,-2)--(\i,2);
+}
+\end{tikzpicture}
+\end{subfigure}
+\caption{Some cases of 3 vertical and 2 horizontal segments.}
+\end{figure}
+\begin{block}{Convert into equation}
+$$
+    V=\sum_{i=0}^{i_1}a_{ij}+\sum_{i=i_1}^{i_2}a_{ij_1}+\sum_{i=i_2}^{n}a_{ij},$$
+    \text{or}
+    $$V=\sum_{i=0}^{i_1}a_{ij_1}+\sum_{i=i_1}^{i_2}a_{ij}+\sum_{i=i_2}^{n}a_{ij_1},
+$$
+where $0\le j_1\le j$ for each color of points.
+\end{block}
+\begin{block}{Verify a solution}
+    This partition is a solution when $$\left|\dfrac{S_n}{2}-V\right|\le \dfrac{1}{2},$$ 
+    for every color of points.
+\end{block}
+\begin{figure}[!ht]
+\centering
+\begin{subfigure}{0.49\textwidth}
+\centering
+\begin{tikzpicture}[thick, scale=0.4]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1] (-5,2)--(-2,2)--(-2,-2)--(2,-2)--(2,2)--(5,2);
+\node at (-5.5,-2) {$j_1$};
+\node at (-5.5,2) {$j$};
+\node at (-2,-5.5) {$i_1$};
+\node at (2,-5.5) {$i_2$};
+\foreach \i in {-5,-4.5,...,-3,-2.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (-5,\i)--(5,\i);
+}
+\foreach \i in {-2,-1.5,...,1,1.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (-5,\i)--(-2,\i);
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (2,\i)--(5,\i);
+}
+\end{tikzpicture}
+\end{subfigure}
+\begin{subfigure}{0.49\textwidth}
+\centering
+\begin{tikzpicture}[thick, scale=0.4]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1](-5,-2)--(-2,-2)--(-2,2)--(2,2)--(2,-2)--(5,-2);
+\node at (-5.5,-2) {$j_1$};
+\node at (-5.5,2) {$j$};
+\node at (-2,-5.5) {$i_1$};
+\node at (2,-5.5) {$i_2$};
+\foreach \i in {-5,-4.5,...,-3,-2.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (-5,\i)--(5,\i);
+}
+\foreach \i in {-2,-1.5,...,1,1.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (-2,\i)--(2,\i);
+}
+\end{tikzpicture}
+\end{subfigure}
+\caption{Some cases of 2 vertical and 3 horizontal segments.}
+\end{figure}
+
+\end{frame}
+
+\section{Result}
+\begin{frame}{Counterexample of 3 Line Segments}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{False 3colors100x100_pic78.png}
+    \caption{Counterexample of equipartitions with 3 line segments for 3 color point sets.}
+    \label{ex6}
+\end{figure}
+\end{frame}
+\begin{frame}{5 Line Segments for 3-color Points}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{True 3colors100x100_pic15}
+    \caption{Equipartitions with 3 vertical and 2 horizontal segments for 3 color point sets when translated a value $x=j$.}
+    \label{ex13}
+\end{figure}
+\end{frame}
+\begin{frame}{Counterexample of some cases of 5 Line Segments}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\linewidth]{False 4colors20x20_pic2094}
+    \caption{Counterexample of equipartitions with some cases of 5 line segments for 4 color point sets.}
+    \label{ex14}
+\end{figure}
+\end{frame}
+
+\section{Discussion}
+\begin{frame}[allowframebreaks]{General Case of 5 Line Segments}
+
+% \end{frame}
+
+% \begin{frame}{General Case of 5 Line Segments}
+
+\begin{figure}[!ht]
+\centering
+\begin{subfigure}{0.24\textwidth}
+\centering
+\begin{tikzpicture}[thick, scale=0.21]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1] (2,-5)--(2,-2)--(-2,-2)--(-2,2)--(0,2)--(0,5);
+\foreach \i in {-5,-4.5,...,4.5,5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=0.3] (\i,-5)--(\i,5);
+}
+\end{tikzpicture}
+\end{subfigure}
+\begin{subfigure}{0.24\textwidth}
+\centering
+\begin{tikzpicture}[thick, scale=0.21]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1] (2,5)--(2,2)--(-2,2)--(-2,-2)--(0,-2)--(0,-5);
+\foreach \i in {-5,-4.5,...,4.5,5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=0.3] (\i,-5)--(\i,5);
+}
+\end{tikzpicture}
+\end{subfigure}
+\begin{subfigure}{0.24\textwidth}
+\centering
+\begin{tikzpicture}[thick, scale=0.21]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1] (2,-5)--(2,-2)--(0,-2)--(0,2)--(-2,2)--(-2,5);
+\foreach \i in {-5,-4.5,...,4.5,5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=0.3] (\i,-5)--(\i,5);
+}
+\end{tikzpicture}
+\end{subfigure}
+\begin{subfigure}{0.24\textwidth}
+\centering
+\begin{tikzpicture}[thick, scale=0.21]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1] (2,-5)--(2,2)--(0,2)--(0,-2)--(-2,-2)--(-2,5);
+\foreach \i in {-5,-4.5,...,4.5,5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=0.3] (\i,-5)--(\i,5);
+}
+\end{tikzpicture}
+\end{subfigure}
+\begin{subfigure}{0.24\textwidth}
+\centering
+\begin{tikzpicture}[thick, scale=0.21]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1] (0,5)--(0,2)--(2,2)--(2,-2)--(-2,-2)--(-2,-5);
+\foreach \i in {-5,-4.5,...,4.5,5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=0.3] (\i,-5)--(\i,5);
+}
+\end{tikzpicture}
+\end{subfigure}
+\begin{subfigure}{0.24\textwidth}
+\centering
+\begin{tikzpicture}[thick, scale=0.21]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1] (-2,5)--(-2,2)--(2,2)--(2,-2)--(0,-2)--(0,-5);
+\foreach \i in {-5,-4.5,...,4.5,5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=0.3] (\i,-5)--(\i,5);
+}
+\end{tikzpicture}
+\end{subfigure}
+\begin{subfigure}{0.24\textwidth}
+\centering
+\begin{tikzpicture}[thick, scale=0.21]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1] (2,5)--(2,2)--(0,2)--(0,-2)--(-2,-2)--(-2,-5);
+\foreach \i in {-5,-4.5,...,4.5,5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=0.3] (\i,-5)--(\i,5);
+}
+\end{tikzpicture}
+\end{subfigure}
+\begin{subfigure}{0.24\textwidth}
+\centering
+\begin{tikzpicture}[thick, scale=0.21]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1] (-2,-5)--(-2,2)--(0,2)--(0,-2)--(2,-2)--(2,5);
+\foreach \i in {-5,-4.5,...,4.5,5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=0.3] (\i,-5)--(\i,5);
+}
+\end{tikzpicture}
+\end{subfigure}
+\caption{General case of 3 vertical and 2 horizontal segments.}
+\end{figure}
+\begin{block}{Convert into equation}
+$$
+    V=\sum_{i=0}^{i_1}a_{ij_1}+\sum_{i=i_1}^{i_2}a_{ij_2}+\sum_{i=i_2}^{n}a_{ij_3},$$
+    \text{where $i_1\le i_2$ for each color of points or}
+    $$V=\sum_{i=0}^{i_1}a_{ij_1}-\sum_{i=i_1}^{i_2}a_{ij_2}+\sum_{i=i_2}^{n}a_{ij_3},
+$$
+where $i_1>i_2$ for each color of points.
+\end{block}
+
+\begin{figure}[!ht]
+\centering
+\begin{subfigure}{0.49\textwidth}
+\centering
+\begin{tikzpicture}[thick, scale=0.4]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1] (2,-5)--(2,2)--(0,2)--(0,-2)--(-2,-2)--(-2,5);
+\node at (-5.5,-2) {$i_2$};
+\node at (-5.5,2) {$i_1$};
+\node at (-2,-5.5) {$\color{red!80!black}j_3$};
+\node at (0,-5.5) {$j_2$};
+\node at (2,-5.5) {$j_1$};
+\foreach \i in {-5,-4.5,...,-3,-2.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (\i,-5)--(\i,5);
+}
+\foreach \i in {-2,-1.5,-1,-0.5,0}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (\i,-5)--(\i,-2);
+}
+\foreach \i in {0.5,1,1.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (\i,-5)--(\i,2);
+}
+
+\end{tikzpicture}
+\end{subfigure}
+\begin{subfigure}{0.49\textwidth}
+\centering
+\begin{tikzpicture}[thick, scale=0.4]
+%%%%% Axis %%%%%
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-6,-5)--(5,-5) ;
+\draw[->,ultra thick] (-5,-6)--(-5,5) ;
+\draw[densely dashed,color=red,line width=1pt,opacity=1] (-2,-5)--(-2,2)--(0,2)--(0,-2)--(2,-2)--(2,5);
+\node at (-5.5,-2) {$i_2$};
+\node at (-5.5,2) {$i_1$};
+\node at (-2,-5.5) {$j_1$};
+\node at (0,-5.5) {$j_2$};
+\node at (2,-5.5) {$\color{red!80!black}j_3$};
+\foreach \i in {-5,-4.5,...,-3,-2.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (\i,-5)--(\i,5);
+}
+\foreach \i in {-2,-1.5,-1,-0.5,0}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (\i,2)--(\i,5);
+}
+\foreach \i in {0.5,1,1.5}{
+\draw[densely dashed,color=blue,line width=0.5pt,opacity=1] (\i,-2)--(\i,5);
+}
+\end{tikzpicture}
+\end{subfigure}
+\caption{General case of 3 vertical and 2 horizontal segments with $i_1>i_2$.}
+\end{figure}
+
+\end{frame}
+\begin{frame}
+    \centering\Huge\textbf{\textcolor{msl!80!black}{Q \& A}}\emoji{thinking}\emoji{thinking}
+    %\emoji{raising-hand-man}\emoji{person-raising-hand}\emoji{raising-hand-woman}% \emoji{thinking}\emoji{thinking}% \emoji{right-anger-bubble}\emoji{thought-balloon}
+\end{frame}
+\begin{frame}[allowframebreaks]{Application}
+\begin{figure}
+        \centering
+        \includegraphics[width=1\linewidth]{download (31).png}
+\end{figure}
+\begin{figure}[ht]
+    \centering
+\begin{tikzpicture}[thick, scale=0.55]
+\draw[help lines, color=gray!30, dashed] (-4.9,-4.9) grid (4.9,4.9);
+\draw[->,ultra thick] (-5,0)--(5,0) ;
+\draw[->,ultra thick] (0,-5)--(0,5) ;
+
+\draw[fill=red,draw=black] (3,2.5) circle (3pt);
+\draw[fill=red,draw=black] (-2.5,-3) circle (3pt);
+\draw[fill=red,draw=black] (-1,3) circle (3pt);
+\draw[fill=red,draw=black] (1,-3) circle (3pt);
+
+\draw[fill=red,draw=black] (-3,1) circle (3pt);
+\draw[fill=red,draw=black] (3,-1) circle (3pt);
+\draw[fill=red,draw=black] (2.5,1) circle (3pt);
+\draw[fill=red,draw=black] (-0.5,-2.5) circle (3pt);
+
+\draw[fill=red,draw=black] (-0.5,0.5) circle (3pt);
+\draw[fill=red,draw=black] (1,4) circle (3pt);
+\draw[fill=red,draw=black] (-4,-1) circle (3pt);
+\draw[fill=red,draw=black] (3,-2) circle (3pt);
+
+\draw[fill=red,draw=black] (0.5,4.5) circle (3pt);
+\draw[fill=red,draw=black] (-0.5,1) circle (3pt);
+\draw[fill=red,draw=black] (-4.5,-1.5) circle (3pt);
+\draw[fill=red,draw=black] (4,-4) circle (3pt);
+
+\draw[fill=red,draw=black] (0.5,0.5) circle (3pt);
+\draw[fill=red,draw=black] (-1,4) circle (3pt);
+\draw[fill=red,draw=black] (-3,-2) circle (3pt);
+\draw[fill=red,draw=black] (4,-1) circle (3pt);
+
+\end{tikzpicture}
+\end{figure}
+\end{frame}
+\begin{frame}[allowframebreaks]{References}
+\def\newblock{}
+\bibliographystyle{plain}
+\bibliography{498Reference}
+\end{frame}
+\end{document}
