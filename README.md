@@ -1,1 +1,0 @@
-# Orthogonal-equipartitions-project
